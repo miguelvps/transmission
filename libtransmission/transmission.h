@@ -213,6 +213,7 @@ const char* tr_getDefaultDownloadDir( void );
 #define TR_PREFS_KEY_UPLOAD_SLOTS_PER_TORRENT     "upload-slots-per-torrent"
 #define TR_PREFS_KEY_START                        "start-added-torrents"
 #define TR_PREFS_KEY_TRASH_ORIGINAL               "trash-original-torrent-files"
+#define TR_PREFS_KEY_AUTO_SAVE_SETTINGS           "auto-save-settings"
 
 
 /**
@@ -732,6 +733,9 @@ bool       tr_sessionGetPaused        ( const tr_session * );
 
 void       tr_sessionSetDeleteSource  ( tr_session *, bool deleteSource );
 bool       tr_sessionGetDeleteSource  ( const tr_session * );
+
+void       tr_sessionSetAutoSaveSettings ( tr_session *, bool autoSaveSettings);
+bool       tr_sessionGetAutoSaveSettings ( const tr_session * );
 
 tr_priority_t   tr_torrentGetPriority( const tr_torrent * );
 void            tr_torrentSetPriority( tr_torrent *, tr_priority_t );

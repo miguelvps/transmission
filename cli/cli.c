@@ -344,7 +344,8 @@ main( int argc, char ** argv )
             fprintf( stderr, "\n%s: %s\n", messageName[st->error], st->errorString );
     }
 
-    tr_sessionSaveSettings( h, configDir, &settings );
+    if ( tr_sessionGetAutoSaveSettings( h ) )
+        tr_sessionSaveSettings( h, configDir, &settings );
 
     printf( "\n" );
     tr_bencFree( &settings );

@@ -360,6 +360,7 @@ tr_sessionGetDefaultSettings( tr_benc * d )
     tr_bencDictAddStr ( d, TR_PREFS_KEY_BIND_ADDRESS_IPV6,        TR_DEFAULT_BIND_ADDRESS_IPV6 );
     tr_bencDictAddBool( d, TR_PREFS_KEY_START,                    true );
     tr_bencDictAddBool( d, TR_PREFS_KEY_TRASH_ORIGINAL,           false );
+    tr_bencDictAddBool( d, TR_PREFS_KEY_AUTO_SAVE_SETTINGS,       true );
 }
 
 void
@@ -425,6 +426,7 @@ tr_sessionGetSettings( tr_session * s, struct tr_benc * d )
     tr_bencDictAddStr ( d, TR_PREFS_KEY_BIND_ADDRESS_IPV6,        tr_address_to_string( &s->public_ipv6->addr ) );
     tr_bencDictAddBool( d, TR_PREFS_KEY_START,                    !tr_sessionGetPaused( s ) );
     tr_bencDictAddBool( d, TR_PREFS_KEY_TRASH_ORIGINAL,           tr_sessionGetDeleteSource( s ) );
+    tr_bencDictAddBool( d, TR_PREFS_KEY_AUTO_SAVE_SETTINGS,       tr_sessionGetAutoSaveSettings( s ) );
 }
 
 bool
@@ -792,6 +794,8 @@ sessionSetImpl( void * vdata )
         tr_sessionSetIncompleteDirEnabled( session, boolVal );
     if( tr_bencDictFindBool( settings, TR_PREFS_KEY_RENAME_PARTIAL_FILES, &boolVal ) )
         tr_sessionSetIncompleteFileNamingEnabled( session, boolVal );
+    if( tr_bencDictFindBool( settings, TR_PREFS_KEY_AUTO_SAVE_SETTINGS, &boolVal ) )
+        tr_sessionSetAutoSaveSettings( session, boolVal );
 
     /* rpc server */
     if( session->rpcServer != NULL ) /* close the old one */
@@ -1650,6 +1654,22 @@ tr_sessionGetDeleteSource( const tr_session * session )
     assert( tr_isSession( session ) );
 
     return session->deleteSourceTorrent;
+}
+
+void
+tr_sessionSetAutoSaveSettings( tr_session * session, bool autoSaveSettings )
+{
+    assert( tr_isSession( session ) );
+
+    session->autoSaveSettings = autoSaveSettings;
+}
+
+bool
+tr_sessionGetAutoSaveSettings( const tr_session * session )
+{
+    assert( tr_isSession( session ) );
+
+    return session->autoSaveSettings;
 }
 
 /***

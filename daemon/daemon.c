@@ -486,7 +486,8 @@ main( int argc, char ** argv )
     mySession = tr_sessionInit( "daemon", configDir, true, &settings );
     tr_sessionSetRPCCallback( mySession, on_rpc_callback, NULL );
     tr_ninf( NULL, "Using settings from \"%s\"", configDir );
-    tr_sessionSaveSettings( mySession, configDir, &settings );
+    if ( tr_sessionGetAutoSaveSettings( mySession ) )
+        tr_sessionSaveSettings( mySession, configDir, &settings );
 
     pid_filename = NULL;
     tr_bencDictFindStr( &settings, PREF_KEY_PIDFILE, &pid_filename );
@@ -545,7 +546,8 @@ main( int argc, char ** argv )
     }
 
     printf( "Closing transmission session..." );
-    tr_sessionSaveSettings( mySession, configDir, &settings );
+    if ( tr_sessionGetAutoSaveSettings( mySession ) )
+        tr_sessionSaveSettings( mySession, configDir, &settings );
     dtr_watchdir_free( watchdir );
     tr_sessionClose( mySession );
     pumpLogMessages( logfile );

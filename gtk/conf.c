@@ -309,7 +309,8 @@ gtr_pref_string_set( const char * key, const char * value )
 void
 gtr_pref_save( tr_session * session )
 {
-    tr_sessionSaveSettings( session, gl_confdir, getPrefs( ) );
+    if ( tr_sessionGetAutoSaveSettings( session ) )
+        tr_sessionSaveSettings( session, gl_confdir, getPrefs( ) );
 }
 
 /***

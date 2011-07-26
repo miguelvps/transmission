@@ -108,6 +108,7 @@ struct tr_session
     bool                         pauseAddedTorrent;
     bool                         deleteSourceTorrent;
     bool                         scrapePausedTorrents;
+    bool                         autoSaveSettings;
 
     tr_benc                      removedTorrents;
 
